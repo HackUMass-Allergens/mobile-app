@@ -11,7 +11,7 @@ struct Order: Codable, Hashable {
     let id: UUID;
     let time: String
     let user: String
-    let comments: String
+    let comment: String
     let location: String
 }
 
@@ -19,6 +19,7 @@ struct User: Codable, Hashable {
     let id: UUID
     var first_name: String
     var last_name: String
+    var allergies: [AllergyOrAllergen]
 }
 
 struct Location: Codable, Hashable {
@@ -48,4 +49,8 @@ struct MealCategory: Codable, Hashable {
     let id: UUID
     let name: String
     let is_special: Bool
+}
+
+struct AllergyOrAllergen: Codable, Hashable {
+    let name: String
 }
