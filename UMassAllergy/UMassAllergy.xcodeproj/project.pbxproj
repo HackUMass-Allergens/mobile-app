@@ -8,12 +8,19 @@
 
 /* Begin PBXBuildFile section */
 		DD35B41F291F5ABB0003DB11 /* UMassAllergyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD35B41E291F5ABB0003DB11 /* UMassAllergyApp.swift */; };
-		DD35B421291F5ABB0003DB11 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD35B420291F5ABB0003DB11 /* ContentView.swift */; };
 		DD35B423291F5ABC0003DB11 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD35B422291F5ABC0003DB11 /* Assets.xcassets */; };
 		DD35B426291F5ABC0003DB11 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD35B425291F5ABC0003DB11 /* Preview Assets.xcassets */; };
 		DD35B430291F5ABC0003DB11 /* UMassAllergyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD35B42F291F5ABC0003DB11 /* UMassAllergyTests.swift */; };
 		DD35B43A291F5ABC0003DB11 /* UMassAllergyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD35B439291F5ABC0003DB11 /* UMassAllergyUITests.swift */; };
 		DD35B43C291F5ABC0003DB11 /* UMassAllergyUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD35B43B291F5ABC0003DB11 /* UMassAllergyUITestsLaunchTests.swift */; };
+		DD3E1EFF291F8B33005D9943 /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = DD3E1EFE291F8B33005D9943 /* Supabase */; };
+		DD3E1F02291F8BF6005D9943 /* GoTrue in Frameworks */ = {isa = PBXBuildFile; productRef = DD3E1F01291F8BF6005D9943 /* GoTrue */; };
+		DD3E1F04291F8CD5005D9943 /* DbFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3E1F03291F8CD5005D9943 /* DbFunctions.swift */; };
+		DD3E1F06291F8FF5005D9943 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3E1F05291F8FF5005D9943 /* Models.swift */; };
+		DD3E1F08291F9B27005D9943 /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3E1F07291F9B27005D9943 /* Secrets.swift */; };
+		DD3E1F0A291F9B82005D9943 /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3E1F09291F9B82005D9943 /* AppView.swift */; };
+		DD3E1F0C291F9BB8005D9943 /* SessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3E1F0B291F9BB8005D9943 /* SessionView.swift */; };
+		DD3E1F0E291F9C1D005D9943 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3E1F0D291F9C1D005D9943 /* AuthView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,7 +43,6 @@
 /* Begin PBXFileReference section */
 		DD35B41B291F5ABB0003DB11 /* UMassAllergy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UMassAllergy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD35B41E291F5ABB0003DB11 /* UMassAllergyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UMassAllergyApp.swift; sourceTree = "<group>"; };
-		DD35B420291F5ABB0003DB11 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		DD35B422291F5ABC0003DB11 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DD35B425291F5ABC0003DB11 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		DD35B42B291F5ABC0003DB11 /* UMassAllergyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UMassAllergyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -44,6 +50,12 @@
 		DD35B435291F5ABC0003DB11 /* UMassAllergyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UMassAllergyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD35B439291F5ABC0003DB11 /* UMassAllergyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UMassAllergyUITests.swift; sourceTree = "<group>"; };
 		DD35B43B291F5ABC0003DB11 /* UMassAllergyUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UMassAllergyUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		DD3E1F03291F8CD5005D9943 /* DbFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DbFunctions.swift; sourceTree = "<group>"; };
+		DD3E1F05291F8FF5005D9943 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		DD3E1F07291F9B27005D9943 /* Secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secrets.swift; sourceTree = "<group>"; };
+		DD3E1F09291F9B82005D9943 /* AppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppView.swift; sourceTree = "<group>"; };
+		DD3E1F0B291F9BB8005D9943 /* SessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionView.swift; sourceTree = "<group>"; };
+		DD3E1F0D291F9C1D005D9943 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,6 +63,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DD3E1F02291F8BF6005D9943 /* GoTrue in Frameworks */,
+				DD3E1EFF291F8B33005D9943 /* Supabase in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -95,9 +109,14 @@
 			isa = PBXGroup;
 			children = (
 				DD35B41E291F5ABB0003DB11 /* UMassAllergyApp.swift */,
-				DD35B420291F5ABB0003DB11 /* ContentView.swift */,
 				DD35B422291F5ABC0003DB11 /* Assets.xcassets */,
 				DD35B424291F5ABC0003DB11 /* Preview Content */,
+				DD3E1F03291F8CD5005D9943 /* DbFunctions.swift */,
+				DD3E1F05291F8FF5005D9943 /* Models.swift */,
+				DD3E1F07291F9B27005D9943 /* Secrets.swift */,
+				DD3E1F09291F9B82005D9943 /* AppView.swift */,
+				DD3E1F0B291F9BB8005D9943 /* SessionView.swift */,
+				DD3E1F0D291F9C1D005D9943 /* AuthView.swift */,
 			);
 			path = UMassAllergy;
 			sourceTree = "<group>";
@@ -143,6 +162,10 @@
 			dependencies = (
 			);
 			name = UMassAllergy;
+			packageProductDependencies = (
+				DD3E1EFE291F8B33005D9943 /* Supabase */,
+				DD3E1F01291F8BF6005D9943 /* GoTrue */,
+			);
 			productName = UMassAllergy;
 			productReference = DD35B41B291F5ABB0003DB11 /* UMassAllergy.app */;
 			productType = "com.apple.product-type.application";
@@ -215,6 +238,10 @@
 				Base,
 			);
 			mainGroup = DD35B412291F5ABB0003DB11;
+			packageReferences = (
+				DD3E1EFD291F8B33005D9943 /* XCRemoteSwiftPackageReference "supabase-swift" */,
+				DD3E1F00291F8BF6005D9943 /* XCRemoteSwiftPackageReference "gotrue-swift" */,
+			);
 			productRefGroup = DD35B41C291F5ABB0003DB11 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -257,8 +284,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DD35B421291F5ABB0003DB11 /* ContentView.swift in Sources */,
+				DD3E1F0C291F9BB8005D9943 /* SessionView.swift in Sources */,
+				DD3E1F08291F9B27005D9943 /* Secrets.swift in Sources */,
+				DD3E1F0A291F9B82005D9943 /* AppView.swift in Sources */,
 				DD35B41F291F5ABB0003DB11 /* UMassAllergyApp.swift in Sources */,
+				DD3E1F04291F8CD5005D9943 /* DbFunctions.swift in Sources */,
+				DD3E1F0E291F9C1D005D9943 /* AuthView.swift in Sources */,
+				DD3E1F06291F8FF5005D9943 /* Models.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -577,6 +609,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		DD3E1EFD291F8B33005D9943 /* XCRemoteSwiftPackageReference "supabase-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/supabase/supabase-swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.0.9;
+			};
+		};
+		DD3E1F00291F8BF6005D9943 /* XCRemoteSwiftPackageReference "gotrue-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/supabase-community/gotrue-swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.0.9;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		DD3E1EFE291F8B33005D9943 /* Supabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DD3E1EFD291F8B33005D9943 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Supabase;
+		};
+		DD3E1F01291F8BF6005D9943 /* GoTrue */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DD3E1F00291F8BF6005D9943 /* XCRemoteSwiftPackageReference "gotrue-swift" */;
+			productName = GoTrue;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = DD35B413291F5ABB0003DB11 /* Project object */;
 }
