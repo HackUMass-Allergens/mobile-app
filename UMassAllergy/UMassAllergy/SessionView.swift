@@ -28,11 +28,14 @@ struct SessionView: View {
                 NavigationLink(destination: Sett(), label:  {ButtonView("Settings")})
                 NavigationLink(destination: HelpInfo(), label: {ButtonView("Help/Info")})
             }
+            
+            
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color.black)
+            .background(Image("Foodfoodfood"))
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color.black)
+        
     }
 }
 
