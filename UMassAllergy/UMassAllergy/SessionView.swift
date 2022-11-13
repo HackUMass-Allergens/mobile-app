@@ -26,12 +26,11 @@ struct SessionView: View {
                 .foregroundColor(Color.white).background(RoundedRectangle(cornerRadius: 10, style: .continuous).foregroundColor(Color(red: 0.55, green: 0.1, blue: 0.1)))
                 .font(.system(size: 75, weight: .bold, design: .serif))
             }
-                NavigationLink(destination: PlaceOrder(), label: {ButtonView("Place Order")}).opacity(0.7).foregroundColor(Color.red)
-                NavigationLink(destination: ViewOrders(), label: {ButtonView("View Orders")}).opacity(0.7)
-                NavigationLink(destination: Sett(), label:  {ButtonView("Settings")}).opacity(0.7)
-                NavigationLink(destination: HelpInfo(), label: {ButtonView("Help/Info")}).opacity(0.7)
-            }.frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(Image("Foodfoodfood").resizable().aspectRatio(contentMode: .fill).ignoresSafeArea())
+                NavigationLink(destination: PlaceOrder(), label: {ImageButtonView("Place Order", "plus.app")}).opacity(0.7).foregroundColor(Color.red)
+                NavigationLink(destination: ViewOrders(), label: {ImageButtonView("View Orders", "eyeglasses")}).opacity(0.7)
+                NavigationLink(destination: Sett(), label:  {ImageButtonView("Settings", "gearshape")}).opacity(0.7)
+                NavigationLink(destination: HelpInfo(), label: {ImageButtonView("Help/Info", "questionmark.app")}).opacity(0.7)
+            }
             
         }
         
@@ -253,7 +252,6 @@ struct ViewOrders: View {
                 let passId = client.auth.session!.user.id
                 self.orders = try await getOrders(client: client.database, userId: passId)
                 if let orders {
-                    orders.forEach {order in print(order)}
                 }
         } catch {
                 
@@ -265,10 +263,48 @@ struct ViewOrders: View {
 struct HelpInfo: View {
     var body: some View {
         VStack {
-        label: do {Text("Some Info").foregroundColor(.white)}
+            Text("")
+            .padding(20)
+        label: do {Text("What is UMass S.A.F.E.R?")
+                .foregroundColor(.white)
+                .font(Font.custom("sans serif", size: 40))
+                .multilineTextAlignment(.center)
+                .padding(.bottom, 80)
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        label: do {Text("\tUMass S.A.F.E.R allows students with allergens to submit orders for safely prepared food catered to their dietary needs.\n\n\tAdd allergens to your account in the \"Settings\" page and foods containing those allergens will be excluded from your place order page. To place an order, go to the \"Place Order\" page and select the date, meal, meal type, dining hall, and time of pickup for your order.\n\n\tView and cancel your order from the View Orders page. You may change your order pickup time up until 5:00 Pm the day before the order date")
+            .foregroundColor(.white)
+            .font(Font.custom("sans serif", size: 18))
+        }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .background(Color.black)
+    }
+}
+
+struct ImageButtonView: View {
+    var text:String = ""
+    var imageType:String = ""
+    init(_ text:String, _ imageType:String) {
+        self.text = text
+        self.imageType = imageType
+    }
+    var body: some View {
+        HStack {
+            let image = UIImage(systemName: imageType)
+            let targetSize = CGSize(width: 50, height: 50)
+            let scaledImage = image!.scalePreservingAspectRatio(
+                targetSize: targetSize
+            )
+            Image(uiImage: scaledImage)
+                .foregroundColor(Color.red)
+                .padding(10)
+                Text(text)
+                .foregroundColor(Color.red)
+                .font(Font.custom("sans serif", size: 32))
+        }
+        .frame(width: 300, height: 100, alignment: .leading)
+        .background(Color(red: 0.8, green: 0.8, blue: 0.8))
+        .cornerRadius(15)
     }
 }
 
@@ -277,7 +313,6 @@ struct ButtonView: View {
     init(_ text:String) {
         self.text = text
     }
-    let image = UIImage(named: "plus.app")
     var body: some View {
         Text(text)
             .frame(width: 300, height: 100, alignment: .center)
@@ -289,13 +324,32 @@ struct ButtonView: View {
     }
 }
 
-struct QuestionView: View {
-    var body: some View {
-        Text("?")
-            .frame(width: 300, height: 100, alignment: .center)
-            .background(Color(red: 0.2, green: 0.2, blue: 0.2))
-            .foregroundColor(Color(red: 0.0, green: 0.0, blue: 0.6))
-            .cornerRadius(15)
-            .font(Font.custom("sans serif", size: 32))
+extension UIImage {
+    func scalePreservingAspectRatio(targetSize: CGSize) -> UIImage {
+        // Determine the scale factor that preserves aspect ratio
+        let widthRatio = targetSize.width / size.width
+        let heightRatio = targetSize.height / size.height
+        
+        let scaleFactor = min(widthRatio, heightRatio)
+        
+        // Compute the new image size that preserves aspect ratio
+        let scaledImageSize = CGSize(
+            width: size.width * scaleFactor,
+            height: size.height * scaleFactor
+        )
+
+        // Draw and return the resized UIImage
+        let renderer = UIGraphicsImageRenderer(
+            size: scaledImageSize
+        )
+
+        let scaledImage = renderer.image { _ in
+            self.draw(in: CGRect(
+                origin: .zero,
+                size: scaledImageSize
+            ))
+        }
+        
+        return scaledImage
     }
 }
