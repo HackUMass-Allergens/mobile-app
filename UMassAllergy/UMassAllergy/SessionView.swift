@@ -19,20 +19,21 @@ struct SessionView: View {
     var body: some View {
         NavigationView {
             VStack {
-            label:do{(Text("UMASS S.A.F.E.R"))
-                .foregroundColor(Color.black)
-                .font(.system(size: 75, design: .serif))
+//                StrokeText(text: "Sample Text", width: 0.5, color: .red)
+//                .foregroundColor(.black)
+//                .font(.system(size: 12, weight: .bold))
+            label:do{(Text("UMASS S.A.F.E.R").padding(10))
+                .foregroundColor(Color.white).background(RoundedRectangle(cornerRadius: 10, style: .continuous).foregroundColor(Color(red: 0.55, green: 0.1, blue: 0.1)))
+                .font(.system(size: 75, weight: .bold, design: .serif))
             }
                 NavigationLink(destination: PlaceOrder(), label: {ButtonView("Place Order")}).opacity(0.7).foregroundColor(Color.red)
                 NavigationLink(destination: ViewOrders(), label: {ButtonView("View Orders")}).opacity(0.7)
                 NavigationLink(destination: Sett(), label:  {ButtonView("Settings")}).opacity(0.7)
                 NavigationLink(destination: HelpInfo(), label: {ButtonView("Help/Info")}).opacity(0.7)
-            }
+            }.frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(Image("Foodfoodfood").resizable().aspectRatio(contentMode: .fill).ignoresSafeArea())
             
-            .background(Image("Foodfoodfood").resizable().aspectRatio(contentMode: .fill))
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color.black)
         
     }
 }
@@ -179,7 +180,6 @@ struct PlaceOrder: View {
                 }
             }
             .frame(maxWidth: 250, maxHeight: 600)
-            .background(Color.white)
         }
         .task {
             do {
@@ -244,10 +244,11 @@ struct ButtonView: View {
     var body: some View {
         Text(text)
             .frame(width: 300, height: 100, alignment: .center)
+            .padding(-20)
             .background(Color(red: 0.8, green: 0.8, blue: 0.8))
-            .foregroundColor(Color.red)
+            .foregroundColor(Color(red: 0.55, green: 0.1, blue: 0.1))
             .cornerRadius(15)
-            .font(Font.custom("sans serif", size: 32))
+            .font(.system(size: 40, design: .serif))
     }
 }
 
