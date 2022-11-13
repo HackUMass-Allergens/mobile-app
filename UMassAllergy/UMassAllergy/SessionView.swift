@@ -19,9 +19,9 @@ struct SessionView: View {
     var body: some View {
         NavigationView {
             VStack {
-//                StrokeText(text: "Sample Text", width: 0.5, color: .red)
-//                .foregroundColor(.black)
-//                .font(.system(size: 12, weight: .bold))
+                //                StrokeText(text: "Sample Text", width: 0.5, color: .red)
+                //                .foregroundColor(.black)
+                //                .font(.system(size: 12, weight: .bold))
             label:do{(Text("UMASS S.A.F.E.R").padding(10))
                 .foregroundColor(Color.white).background(RoundedRectangle(cornerRadius: 10, style: .continuous).foregroundColor(Color(red: 0.55, green: 0.1, blue: 0.1)))
                 .font(.system(size: 75, weight: .bold, design: .serif))
@@ -49,9 +49,9 @@ struct PlaceOrder : View {
             .font(Font.custom("sans serif", size: 48))}
             
             if let locations {
-                    ForEach(locations) {location in
-                        NavigationLink(destination: PlaceOrderDateTime(location: location), label:  {ButtonView(location.name)})
-                    }
+                ForEach(locations) {location in
+                    NavigationLink(destination: PlaceOrderDateTime(location: location), label:  {ButtonView(location.name)})
+                }
             }
         }.task {
             do {
@@ -100,8 +100,9 @@ struct PlaceOrderDateTime: View {
             NavigationLink(destination: PlaceOrderChooseMealPeriod(date: self.date, location: self.location), label:  {ButtonView("Select")})
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color.black)
+        .background(Image("Food2").resizable().aspectRatio(contentMode: .fill).ignoresSafeArea())
     }
+    
 }
 
 
@@ -124,7 +125,7 @@ struct PlaceOrderChooseMealPeriod : View {
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color.black)
+        .background(Image("Food2").resizable().aspectRatio(contentMode: .fill).ignoresSafeArea())
         .task {
             do {
                 self.mealPeriods = try await getMealPeriodsOn(client: self.client.database, date: self.date)
@@ -155,7 +156,7 @@ struct PlaceOrderChooseMealCategory : View {
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color.black)
+        .background(Image("Food2").resizable().aspectRatio(contentMode: .fill).ignoresSafeArea())
         .task {
             do {
                 self.mealCategories = try await getMealCategoriesForMealPeriod(client: client.database, mealPeriod: self.mealPeriod)
@@ -223,7 +224,7 @@ struct PlaceOrderMenu : View {
             
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color.black)
+        .background(Image("Food2").resizable().aspectRatio(contentMode: .fill).ignoresSafeArea())
         .task {
             do {
                 var foodGroups = try await getFoodGroupsForMealCategory(client: client.database, mealCategory: mealCategory)
@@ -282,14 +283,13 @@ struct ViewOrders: View {
         VStack {
             var displayList:[String] = []
         label: do {Text("Your Existing Orders").foregroundColor(.white)}
-                if let orders {
-                    Table(orders) {
-                        TableColumn("location", value: \.time)
+            if let orders {
+                Table(orders) {
+                    TableColumn("location", value: \.time)
                 }
             }
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color.black)
+        .background(Image("Food3").resizable().aspectRatio(contentMode: .fill).ignoresSafeArea())
         .task {
             do {
                 let passId = client.auth.session!.user.id
@@ -298,14 +298,14 @@ struct ViewOrders: View {
             }
         }
     }
-    }
+}
 
 
 struct HelpInfo: View {
     var body: some View {
         VStack {
             Text("")
-            .padding(10)
+                .padding(10)
         label: do {Text("What is UMass S.A.F.E.R?")
                 .foregroundColor(.white)
                 .font(Font.custom("sans serif", size: 40))
@@ -313,9 +313,9 @@ struct HelpInfo: View {
                 .padding(.bottom, 10)
         }
         label: do {Text("\tUMass S.A.F.E.R allows students with allergens to submit orders for safely prepared food catered to their dietary needs.\n\n\tAdd allergens to your account in the \"Settings\" page and foods containing those allergens will be excluded from your place order page. To place an order, go to the \"Place Order\" page and select the date, meal, meal type, dining hall, and time of pickup for your order.\n\n\tView and cancel your order from the View Orders page. You may change your order pickup time up until 5:00 Pm the day before the order date")
-            .foregroundColor(.white)
-            .font(Font.custom("sans serif", size: 18))
-            .padding(30)
+                .foregroundColor(.white)
+                .font(Font.custom("sans serif", size: 18))
+                .padding(30)
         }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
@@ -340,7 +340,7 @@ struct ImageButtonView: View {
             Image(uiImage: scaledImage)
                 .foregroundColor(Color.red)
                 .padding(10)
-                Text(text)
+            Text(text)
                 .foregroundColor(Color.red)
                 .font(Font.custom("sans serif", size: 32))
         }
@@ -379,12 +379,12 @@ extension UIImage {
             width: size.width * scaleFactor,
             height: size.height * scaleFactor
         )
-
+        
         // Draw and return the resized UIImage
         let renderer = UIGraphicsImageRenderer(
             size: scaledImageSize
         )
-
+        
         let scaledImage = renderer.image { _ in
             self.draw(in: CGRect(
                 origin: .zero,
