@@ -26,14 +26,14 @@ struct Location: Codable, Hashable {
     let name: String
 }
 
-struct MealPeriod: Codable, Hashable {
+struct MealPeriod: Codable, Hashable, Identifiable {
     let id: UUID
     let date: String
     let name: String
     let meal_category: MealCategory?
 }
 
-struct Food: Codable, Hashable {
+struct Food: Codable, Hashable, Identifiable {
     let id: UUID
     let name: String
     let ingredients: String?
@@ -45,7 +45,11 @@ struct FoodGroup: Codable, Hashable {
     let foods: [Food]
 }
 
-struct MealCategory: Codable, Hashable {
+extension FoodGroup: Identifiable {
+    var id: String { name }
+}
+
+struct MealCategory: Codable, Hashable, Identifiable {
     let id: UUID
     let name: String
     let is_special: Bool

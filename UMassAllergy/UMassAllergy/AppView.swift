@@ -33,6 +33,7 @@ struct AppView: View {
                 session = client.auth.session;
             }
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 
