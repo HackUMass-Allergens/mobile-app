@@ -115,7 +115,7 @@ func getMealCategoriesForMealPeriod(client: PostgrestClient, mealPeriod: MealPer
 
 func getFoodGroupsForMealCategory(client: PostgrestClient, mealCategory: MealCategory) async throws -> [FoodGroup] {
     let response = try await client.from("food_groups")
-        .select(columns: "*,meal_category:meal_categories(id),foods(*)")
+        .select(columns: "*,meal_category:meal_categories(id),foods(*, allergens:things(*))")
         .eq(column: "meal_category.id", value: mealCategory.id.uuidString)
         .execute()
     

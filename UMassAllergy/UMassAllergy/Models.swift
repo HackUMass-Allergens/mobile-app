@@ -37,12 +37,13 @@ struct Food: Codable, Hashable, Identifiable {
     let id: UUID
     let name: String
     let ingredients: String?
+    let allergens: [AllergyOrAllergen]
 }
 
 struct FoodGroup: Codable, Hashable {
     let name: String
     let num_items: Int8
-    let foods: [Food]
+    var foods: [Food]
 }
 
 extension FoodGroup: Identifiable {
@@ -55,6 +56,6 @@ struct MealCategory: Codable, Hashable, Identifiable {
     let is_special: Bool
 }
 
-struct AllergyOrAllergen: Codable, Hashable {
+struct AllergyOrAllergen: Codable, Hashable, Equatable {
     let name: String
 }

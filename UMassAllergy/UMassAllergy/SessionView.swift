@@ -15,7 +15,7 @@ struct SessionView: View {
     @Environment(\.supaClient) private var client
     public var session: Session
     @State private var error: Error?
-
+    
     var body: some View {
         NavigationView {
             VStack {
@@ -62,9 +62,9 @@ struct PlaceOrder: View {
             .font(Font.custom("sans serif", size: 48))}
             
             DatePicker("Order Date",
-            selection: $date,
-            in: dateRange,
-            displayedComponents: .date)
+                       selection: $date,
+                       in: dateRange,
+                       displayedComponents: .date)
             .datePickerStyle(.graphical)
             .foregroundColor(.white)
             .colorInvert()
@@ -138,32 +138,83 @@ struct PlaceOrderChooseMealCategory : View {
 struct PlaceOrderMenu : View {
     @Environment (\.supaClient) private var client
     public var mealCategory: MealCategory
+    @State private var searchText = ""
     @State private var foodGroups: [FoodGroup]?
     @State private var foodSelection = Set<UUID>()
     
+    var searchResults: [FoodGroup] {
+        if let foodGroups {
+            if searchText.isEmpty {
+                return foodGroups
+            } else {
+                return foodGroups.map { foodGroup in
+                    var newFoodGroup = foodGroup
+                    
+                    newFoodGroup.foods = newFoodGroup.foods.filter {$0.name.contains(searchText)}
+                    
+                    return newFoodGroup
+                }
+            }
+        } else {
+            return []
+        }
+    }
+    
     var body: some View {
-        VStack {
-        label:do{(Text(mealCategory.name))
-            .foregroundColor(Color.white)
-            .font(Font.custom("sans serif", size: 48))}
-            
+        NavigationView {
             List(selection: $foodSelection) {
-                if let foodGroups {
-                    ForEach(foodGroups) { foodGroup in
-                        Section(header: Text(foodGroup.name)) {
-                            ForEach(foodGroup.foods) { food in
-                                Text(food.name)
-                            }
+                ForEach(searchResults) { foodGroup in
+                    Section(header: Text(foodGroup.name)) {
+                        ForEach(foodGroup.foods) { food in
+                            NavigationLink(destination: FoodInfo(food: food), label:  {Text(food.name)})
                         }
                     }
                 }
             }
+            .toolbar {
+                EditButton()
+                Button("Submit") {
+                    Task {
+                        //let order = try await createOrder(client: client.database, order_time: <#T##Date#>, comment: <#T##String#>, location: <#T##String#>)
+                    }
+                }
+            }
+            .searchable(text: $searchText)
+            .navigationTitle(Text(mealCategory.name))
+            
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color.black)
         .task {
             do {
-                self.foodGroups = try await getFoodGroupsForMealCategory(client: client.database, mealCategory: mealCategory)
+                var foodGroups = try await getFoodGroupsForMealCategory(client: client.database, mealCategory: mealCategory)
+                
+                let user = try await getUser(client: client.database, userId: client.auth.session!.user.id)
+                
+                let userAllergies = user.allergies.map { allergy in
+                    allergy.name
+                }
+                
+                foodGroups = foodGroups.map({foodGroup in
+                    var newFoodGroup = foodGroup
+                    
+                    newFoodGroup.foods = foodGroup.foods.filter({food in
+                        var dangerous = false;
+                        
+                        for allergen in food.allergens {
+                            if user.allergies.contains(allergen) {
+                                dangerous = true;
+                                break;
+                            }
+                        }
+                        
+                        return dangerous
+                    })
+                    
+                    return newFoodGroup
+                })
+                
+                self.foodGroups = foodGroups
             } catch {
                 
             }
@@ -171,10 +222,26 @@ struct PlaceOrderMenu : View {
     }
 }
 
+struct FoodInfo : View {
+    public var food: Food
+    
+    var body: some View {
+        VStack {
+        label:do{(Text(food.name))
+            .foregroundColor(Color.black)
+            .font(Font.custom("sans serif", size: 48))}
+            
+            if let ingredients = food.ingredients {
+                Text(ingredients)
+            }
+        }.frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+}
+
 struct ViewOrders: View {
     var body: some View {
         VStack {
-            label: do {Text("Your Existing Orders").foregroundColor(.white)}
+        label: do {Text("Your Existing Orders").foregroundColor(.white)}
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color.black)
