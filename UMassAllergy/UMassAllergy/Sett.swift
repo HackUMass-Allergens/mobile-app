@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct Sett: View {
+struct Settings: View {
     var body: some View {
         VStack{
             
@@ -15,8 +15,8 @@ struct Sett: View {
     }
 }
 
-struct Sett_Previews: PreviewProvider {
+struct Settings_Previews: PreviewProvider {
     static var previews: some View {
-        Sett()
+        Settings()
     }
 }

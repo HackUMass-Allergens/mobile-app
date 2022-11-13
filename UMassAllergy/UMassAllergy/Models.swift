@@ -26,6 +26,10 @@ struct Location: Codable, Hashable {
     let name: String
 }
 
+extension Location: Identifiable {
+    var id: String {name}
+}
+
 struct MealPeriod: Codable, Hashable, Identifiable {
     let id: UUID
     let date: String
