@@ -20,18 +20,18 @@ struct SessionView: View {
         NavigationView {
             VStack {
             label:do{(Text("UMASS S.A.F.E.R"))
-                .foregroundColor(Color.white)
-                .font(Font.custom("sans serif", size: 48))
+                .foregroundColor(Color.black)
+                .font(.system(size: 75, design: .serif))
             }
-                NavigationLink(destination: PlaceOrder(), label: {ButtonView("Place Order")})
-                NavigationLink(destination: ViewOrders(), label: {ButtonView("View Orders")})
-                NavigationLink(destination: Sett(), label:  {ButtonView("Settings")})
-                NavigationLink(destination: HelpInfo(), label: {ButtonView("Help/Info")})
+                NavigationLink(destination: PlaceOrder(), label: {ButtonView("Place Order")}).opacity(0.7).foregroundColor(Color.red)
+                NavigationLink(destination: ViewOrders(), label: {ButtonView("View Orders")}).opacity(0.7)
+                NavigationLink(destination: Sett(), label:  {ButtonView("Settings")}).opacity(0.7)
+                NavigationLink(destination: HelpInfo(), label: {ButtonView("Help/Info")}).opacity(0.7)
             }
             
             
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Image("Foodfoodfood"))
+            .background(Image("Screenshot 2022-11-13 at 12.57.58 AM").scaledToFill()).ignoresSafeArea()
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color.black)
@@ -246,8 +246,8 @@ struct ButtonView: View {
     var body: some View {
         Text(text)
             .frame(width: 300, height: 100, alignment: .center)
-            .background(Color(red: 0.2, green: 0.2, blue: 0.2))
-            .foregroundColor(Color(red: 0.0, green: 0.0, blue: 0.6))
+            .background(Color(red: 0.8, green: 0.8, blue: 0.8))
+            .foregroundColor(Color.red)
             .cornerRadius(15)
             .font(Font.custom("sans serif", size: 32))
     }
