@@ -315,7 +315,7 @@ struct HelpInfo: View {
         label: do {Text("\tUMass S.A.F.E.R allows students with allergens to submit orders for safely prepared food catered to their dietary needs.\n\n\tAdd allergens to your account in the \"Settings\" page and foods containing those allergens will be excluded from your place order page. To place an order, go to the \"Place Order\" page and select the date, meal, meal type, dining hall, and time of pickup for your order.\n\n\tView and cancel your order from the View Orders page. You may change your order pickup time up until 5:00 Pm the day before the order date")
             .foregroundColor(.white)
             .font(Font.custom("sans serif", size: 18))
-            .padding(20)
+            .padding(30)
         }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
