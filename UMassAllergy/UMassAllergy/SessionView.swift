@@ -239,12 +239,26 @@ struct FoodInfo : View {
 }
 
 struct ViewOrders: View {
+    @Environment (\.supaClient) private var client
+    @State private var orders: [Order]?
+    
     var body: some View {
         VStack {
         label: do {Text("Your Existing Orders").foregroundColor(.white)}
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color.black)
+        .task {
+            do {
+                let passId = client.auth.session!.user.id
+                self.orders = try await getOrders(client: client.database, userId: passId)
+                if let orders {
+                    orders.forEach {order in print(order)}
+                }
+        } catch {
+                
+        }
+    }
     }
 }
 
@@ -263,6 +277,7 @@ struct ButtonView: View {
     init(_ text:String) {
         self.text = text
     }
+    let image = UIImage(named: "plus.app")
     var body: some View {
         Text(text)
             .frame(width: 300, height: 100, alignment: .center)

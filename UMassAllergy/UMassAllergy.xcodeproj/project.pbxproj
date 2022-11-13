@@ -7,9 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8629DCF7291FC7DB00DE7536 /* HomePage.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8629DCF6291FC7DB00DE7536 /* HomePage.storyboard */; };
-		8629DD01292003A800DE7536 /* HomepageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8629DD00292003A800DE7536 /* HomepageViewController.swift */; };
-		8629DD032920064600DE7536 /* OrderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8629DD022920064600DE7536 /* OrderViewController.swift */; };
 		86B0B164292097220041C973 /* Sett.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B0B163292097220041C973 /* Sett.swift */; };
 		DD35B41F291F5ABB0003DB11 /* UMassAllergyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD35B41E291F5ABB0003DB11 /* UMassAllergyApp.swift */; };
 		DD35B423291F5ABC0003DB11 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD35B422291F5ABC0003DB11 /* Assets.xcassets */; };
@@ -45,9 +42,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		8629DCF6291FC7DB00DE7536 /* HomePage.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = HomePage.storyboard; sourceTree = "<group>"; };
-		8629DD00292003A800DE7536 /* HomepageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomepageViewController.swift; sourceTree = "<group>"; };
-		8629DD022920064600DE7536 /* OrderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderViewController.swift; sourceTree = "<group>"; };
 		86B0B163292097220041C973 /* Sett.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sett.swift; sourceTree = "<group>"; };
 		DD35B41B291F5ABB0003DB11 /* UMassAllergy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UMassAllergy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD35B41E291F5ABB0003DB11 /* UMassAllergyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UMassAllergyApp.swift; sourceTree = "<group>"; };
@@ -93,20 +87,9 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		8629DCF3291FBA0E00DE7536 /* Storyboards */ = {
-			isa = PBXGroup;
-			children = (
-				8629DCF6291FC7DB00DE7536 /* HomePage.storyboard */,
-				8629DD022920064600DE7536 /* OrderViewController.swift */,
-				8629DD00292003A800DE7536 /* HomepageViewController.swift */,
-			);
-			path = Storyboards;
-			sourceTree = "<group>";
-		};
 		DD35B412291F5ABB0003DB11 = {
 			isa = PBXGroup;
 			children = (
-				8629DCF3291FBA0E00DE7536 /* Storyboards */,
 				DD35B41D291F5ABB0003DB11 /* UMassAllergy */,
 				DD35B42E291F5ABC0003DB11 /* UMassAllergyTests */,
 				DD35B438291F5ABC0003DB11 /* UMassAllergyUITests */,
@@ -280,7 +263,6 @@
 			files = (
 				DD35B426291F5ABC0003DB11 /* Preview Assets.xcassets in Resources */,
 				DD35B423291F5ABC0003DB11 /* Assets.xcassets in Resources */,
-				8629DCF7291FC7DB00DE7536 /* HomePage.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -313,8 +295,6 @@
 				DD3E1F0E291F9C1D005D9943 /* AuthView.swift in Sources */,
 				DD3E1F06291F8FF5005D9943 /* Models.swift in Sources */,
 				86B0B164292097220041C973 /* Sett.swift in Sources */,
-				8629DD01292003A800DE7536 /* HomepageViewController.swift in Sources */,
-				8629DD032920064600DE7536 /* OrderViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
