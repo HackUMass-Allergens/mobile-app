@@ -8,9 +8,67 @@
 import Foundation
 import PostgREST;
 
+extension Date {
+    static func ISOStringFromDate(date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+        dateFormatter.timeZone = TimeZone(abbreviation: "GMT")
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
+        
+        return dateFormatter.string(from: date).appending("Z")
+    }
+    
+    static func dateFromISOString(string: String) -> Date? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+        dateFormatter.timeZone = TimeZone.autoupdatingCurrent
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        
+        return dateFormatter.date(from: string)
+    }
+    
+    var startOfDay: Date {
+        return Calendar.current.startOfDay(for: self)
+    }
+    
+    var endOfDay: Date {
+        var components = DateComponents()
+        components.day = 1
+        components.second = -1
+        return Calendar.current.date(byAdding: components, to: startOfDay)!
+    }
+    
+    var startOfWeek: Date {
+        Calendar.current.dateComponents([.calendar, .yearForWeekOfYear, .weekOfYear], from: self).date!
+    }
+    
+    var endOfWeek: Date {
+        var components = DateComponents()
+        components.weekOfYear = 1
+        components.second = -1
+        return Calendar.current.date(byAdding: components, to: startOfWeek)!
+    }
+    
+    var startOfMonth: Date {
+        let components = Calendar.current.dateComponents([.year, .month], from: startOfDay)
+        return Calendar.current.date(from: components)!
+    }
+    
+    var endOfMonth: Date {
+        var components = DateComponents()
+        components.month = 1
+        components.second = -1
+        return Calendar.current.date(byAdding: components, to: startOfMonth)!
+    }
+}
+
 func getOrders(client: PostgrestClient, userId: UUID) async throws -> [Order] {
+    let currentDate = Date.now;
+    
+    
     let orders = try await client.from("orders")
         .select(columns: "*")
+        .gte(column: "time", value: Date.ISOStringFromDate(date: currentDate))
         .execute();
     
     return try orders.decoded(to: [Order].self);
@@ -25,13 +83,17 @@ func getOrder(client: PostgrestClient, orderId: UUID) async throws -> Order? {
     return try response.decoded(to: [Order].self)[0]
 }
 
-func getMealPeriodsAfter(client: PostgrestClient, date: Date) async throws -> [MealPeriod] {
+func getMealPeriodsOn(client: PostgrestClient, date: Date) async throws -> [MealPeriod] {
     let dateFormatter = DateFormatter()
     dateFormatter.dateStyle = .full
     
+    let beginningOfDay = date.startOfDay
+    let endOfday = date.endOfDay
+    
     let response = try await client.from("meal_periods")
         .select(columns: "*,meal_category:meal_categories(*)")
-        .gte(column: "date", value: dateFormatter.string(from: date))
+        .gte(column: "date", value: dateFormatter.string(from: beginningOfDay))
+        .lte(column: "date", value: dateFormatter.string(from: endOfday))
         .execute();
     
     return try response.decoded(to: [MealPeriod].self)
