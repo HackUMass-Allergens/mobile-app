@@ -13,49 +13,90 @@ import PostgREST
 struct SessionView: View {
     @Environment(\.supaClient) private var client
     public var session: Session
-    @State private var orders: [Order]?
-    @State private var locations: [Location]?
-    @State private var user: User?
-    @State private var mealPeriods: [MealPeriod]?
-    @State private var mealCategories: [MealCategory]?
-    @State private var foodGroups: [FoodGroup]?
     @State private var error: Error?
-    
+
     var body: some View {
-        ScrollView {
-            Text(stringfy(self.foodGroups?[0]))
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding()
-            
-            if let error {
-                Section {
-                    Text(error.localizedDescription)
-                        .foregroundColor(.red)
-                }
+        NavigationView {
+            VStack {
+            label:do{(Text("Welcome!"))
+                .foregroundColor(Color.white)
+                .font(Font.custom("sans serif", size: 48))
             }
-        }
-        .navigationTitle("Session")
-        .toolbar {
-            ToolbarItem {
-                Button("Sign out") {
-                    Task {
-                        try? await client.auth.signOut()
-                    }
-                }
+            .buffer()
+                NavigationLink(destination: PlaceOrder(), label: {ButtonView("Place Order")})
+                NavigationLink(destination: ViewOrders(), label: {ButtonView("View Orders")})
+                NavigationLink(destination: Sett(), label:  {ButtonView("Settings")})
+                NavigationLink(destination: HelpInfo(), label: {ButtonView("Help/Info")})
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(Color.black)
         }
-        .task {
-            do {
-                locations = try await getLocations(client: self.client.database)
-                orders = try await getOrders(client: self.client.database, userId: session.user.id)
-                user = try await getUser(client: self.client.database, userId: self.client.auth.session!.user.id.uuidString)
-                mealPeriods = try await getMealPeriodsAfter(client: self.client.database, date: Date.now)
-                mealCategories = try await getMealCategoriesForMealPeriod(client: self.client.database, mealPeriod: mealPeriods![0])
-                foodGroups = try await getFoodGroupsForMealCategory(client: self.client.database, mealCategory: mealCategories![0])
-            } catch {
-                self.error = error
-            }
-            
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color.black)
+    }
+}
+struct PlaceOrder: View {
+    var body: some View {
+        VStack {
+            label: do {Text("Place Order").foregroundColor(.white)}
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color.black)
+    }
+}
+
+struct ViewOrders: View {
+    var body: some View {
+        VStack {
+            label: do {Text("Your Existing Orders").foregroundColor(.white)}
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color.black)
+    }
+}
+
+struct Sett: View {
+    var body: some View {
+        VStack {
+            label: do {Text("Settings").foregroundColor(.white)}
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color.black)
+    }
+}
+
+struct HelpInfo: View {
+    var body: some View {
+        VStack {
+        label: do {Text("Some Info").foregroundColor(.white)}
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color.black)
+    }
+}
+
+struct ButtonView: View {
+    var text:String = ""
+    init(_ text:String) {
+        self.text = text
+    }
+    var body: some View {
+        Text(text)
+            .frame(width: 300, height: 100, alignment: .center)
+            .background(Color(red: 0.2, green: 0.2, blue: 0.2))
+            .foregroundColor(Color(red: 0.0, green: 0.0, blue: 0.6))
+            .cornerRadius(15)
+            .font(Font.custom("sans serif", size: 32))
+    }
+}
+
+struct QuestionView: View {
+    var body: some View {
+        Text("?")
+            .frame(width: 300, height: 100, alignment: .center)
+            .background(Color(red: 0.2, green: 0.2, blue: 0.2))
+            .foregroundColor(Color(red: 0.0, green: 0.0, blue: 0.6))
+            .cornerRadius(15)
+            .font(Font.custom("sans serif", size: 32))
     }
 }
