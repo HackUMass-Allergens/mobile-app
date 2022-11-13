@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Order: Codable, Hashable {
+struct Order: Codable, Hashable, Identifiable {
     let id: UUID;
     let time: String
     let user: String

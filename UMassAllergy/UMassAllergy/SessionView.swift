@@ -243,7 +243,13 @@ struct ViewOrders: View {
     
     var body: some View {
         VStack {
+            var displayList:[String] = []
         label: do {Text("Your Existing Orders").foregroundColor(.white)}
+                if let orders {
+                    Table(orders) {
+                        TableColumn("location", value: \.time)
+                }
+            }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color.black)
@@ -251,29 +257,28 @@ struct ViewOrders: View {
             do {
                 let passId = client.auth.session!.user.id
                 self.orders = try await getOrders(client: client.database, userId: passId)
-                if let orders {
-                }
-        } catch {
-                
+            } catch {
+            }
         }
     }
     }
-}
+
 
 struct HelpInfo: View {
     var body: some View {
         VStack {
             Text("")
-            .padding(20)
+            .padding(10)
         label: do {Text("What is UMass S.A.F.E.R?")
                 .foregroundColor(.white)
                 .font(Font.custom("sans serif", size: 40))
                 .multilineTextAlignment(.center)
-                .padding(.bottom, 80)
+                .padding(.bottom, 10)
         }
         label: do {Text("\tUMass S.A.F.E.R allows students with allergens to submit orders for safely prepared food catered to their dietary needs.\n\n\tAdd allergens to your account in the \"Settings\" page and foods containing those allergens will be excluded from your place order page. To place an order, go to the \"Place Order\" page and select the date, meal, meal type, dining hall, and time of pickup for your order.\n\n\tView and cancel your order from the View Orders page. You may change your order pickup time up until 5:00 Pm the day before the order date")
             .foregroundColor(.white)
             .font(Font.custom("sans serif", size: 18))
+            .padding(20)
         }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
