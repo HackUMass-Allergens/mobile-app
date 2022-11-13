@@ -174,9 +174,11 @@ struct CreateOrderParams : Codable {
 
 func createOrder(client: PostgrestClient, order_time: Date, comment: String, location: String) async throws -> Order? {
     let dateFormatter = DateFormatter()
-    dateFormatter.dateStyle = .full
+    dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+    dateFormatter.timeZone = TimeZone(abbreviation: "GMT")
+    dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
     
-    let response = try await client.rpc(fn: "create_order", params: CreateOrderParams(order_time: dateFormatter.string(from: order_time), comment: comment, location: location))
+    let response = try await client.rpc(fn: "create_order", params: CreateOrderParams(order_time: dateFormatter.string(from: order_time).appending("Z"), comment: comment, location: location))
         .execute()
     
     let orderId = try response.decoded(to: UUID.self)
@@ -189,8 +191,8 @@ struct AddOrderFoodParams : Codable {
     let food_id: UUID
 }
 
-func addOrderFood(client: PostgrestClient, order: Order, food: Food) async throws {
-    try await client.rpc(fn: "add_order_food", params: AddOrderFoodParams(order_id: order.id, food_id: food.id))
+func addOrderFood(client: PostgrestClient, order: Order, foodId: UUID) async throws {
+    try await client.rpc(fn: "add_order_food", params: AddOrderFoodParams(order_id: order.id, food_id: foodId))
         .execute()
 }
 

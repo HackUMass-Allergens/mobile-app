@@ -26,19 +26,48 @@ struct SessionView: View {
                 .foregroundColor(Color.white).background(RoundedRectangle(cornerRadius: 10, style: .continuous).foregroundColor(Color(red: 0.55, green: 0.1, blue: 0.1)))
                 .font(.system(size: 75, weight: .bold, design: .serif))
             }
-                NavigationLink(destination: PlaceOrder(), label: {ImageButtonView("Place Order", "plus.app")}).opacity(0.7).foregroundColor(Color.red)
-                NavigationLink(destination: ViewOrders(), label: {ImageButtonView("View Orders", "eyeglasses")}).opacity(0.7)
-                NavigationLink(destination: Sett(), label:  {ImageButtonView("Settings", "gearshape")}).opacity(0.7)
-                NavigationLink(destination: HelpInfo(), label: {ImageButtonView("Help/Info", "questionmark.app")}).opacity(0.7)
-            }
+                NavigationLink(destination: PlaceOrder(), label: {ButtonView("Place Order")}).opacity(0.7).foregroundColor(Color.red)
+                NavigationLink(destination: ViewOrders(), label: {ButtonView("View Orders")}).opacity(0.7)
+                //NavigationLink(destination: Settings(), label:  {ButtonView("Settings")}).opacity(0.7)
+                NavigationLink(destination: HelpInfo(), label: {ButtonView("Help/Info")}).opacity(0.7)
+            }.frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(Image("Foodfoodfood").resizable().aspectRatio(contentMode: .fill).ignoresSafeArea())
             
         }
         
     }
 }
 
-struct PlaceOrder: View {
+struct PlaceOrder : View {
     @Environment (\.supaClient) private var client
+    @State private var locations: [Location]?
+    
+    var body: some View {
+        VStack {
+        label:do{(Text("Choose location"))
+            .foregroundColor(Color.white)
+            .font(Font.custom("sans serif", size: 48))}
+            
+            if let locations {
+                    ForEach(locations) {location in
+                        NavigationLink(destination: PlaceOrderDateTime(location: location), label:  {ButtonView(location.name)})
+                    }
+            }
+        }.task {
+            do {
+                self.locations = try await getLocations(client: self.client.database)
+            } catch {
+                
+            }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color.black)
+    }
+}
+
+struct PlaceOrderDateTime: View {
+    @Environment (\.supaClient) private var client
+    public var location: Location
     @State private var date = Date()
     
     let dateRange: ClosedRange<Date> = {
@@ -60,15 +89,15 @@ struct PlaceOrder: View {
             .foregroundColor(Color.white)
             .font(Font.custom("sans serif", size: 48))}
             
-            DatePicker("Order Date",
+            DatePicker("Order Date/Time",
                        selection: $date,
                        in: dateRange,
-                       displayedComponents: .date)
+                       displayedComponents: [.date, .hourAndMinute])
             .datePickerStyle(.graphical)
             .foregroundColor(.white)
             .colorInvert()
             
-            NavigationLink(destination: PlaceOrderChooseMealPeriod(date: self.date), label:  {ButtonView("Select")})
+            NavigationLink(destination: PlaceOrderChooseMealPeriod(date: self.date, location: self.location), label:  {ButtonView("Select")})
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color.black)
@@ -79,6 +108,7 @@ struct PlaceOrder: View {
 struct PlaceOrderChooseMealPeriod : View {
     @Environment (\.supaClient) private var client
     public var date: Date
+    public var location: Location
     @State private var mealPeriods: [MealPeriod]?
     
     var body: some View {
@@ -89,7 +119,7 @@ struct PlaceOrderChooseMealPeriod : View {
             
             if let mealPeriods {
                 ForEach(mealPeriods) { mealPeriod in
-                    NavigationLink(destination: PlaceOrderChooseMealCategory(mealPeriod: mealPeriod), label:  {ButtonView(mealPeriod.name)})
+                    NavigationLink(destination: PlaceOrderChooseMealCategory(date: self.date, mealPeriod: mealPeriod, location: self.location), label:  {ButtonView(mealPeriod.name)})
                 }
             }
         }
@@ -107,7 +137,9 @@ struct PlaceOrderChooseMealPeriod : View {
 
 struct PlaceOrderChooseMealCategory : View {
     @Environment (\.supaClient) private var client
+    public var date: Date
     public var mealPeriod: MealPeriod
+    public var location: Location
     @State private var mealCategories: [MealCategory]?
     
     var body: some View {
@@ -118,7 +150,7 @@ struct PlaceOrderChooseMealCategory : View {
             
             if let mealCategories {
                 ForEach(mealCategories) { mealCategory in
-                    NavigationLink(destination: PlaceOrderMenu(mealCategory: mealCategory), label:  {ButtonView(mealCategory.name)})
+                    NavigationLink(destination: PlaceOrderMenu(date: self.date, mealCategory: mealCategory, location: self.location), label:  {ButtonView(mealCategory.name)})
                 }
             }
         }
@@ -136,7 +168,9 @@ struct PlaceOrderChooseMealCategory : View {
 
 struct PlaceOrderMenu : View {
     @Environment (\.supaClient) private var client
+    public var date: Date
     public var mealCategory: MealCategory
+    public var location: Location
     @State private var searchText = ""
     @State private var foodGroups: [FoodGroup]?
     @State private var foodSelection = Set<UUID>()
@@ -172,9 +206,15 @@ struct PlaceOrderMenu : View {
             }
             .toolbar {
                 EditButton()
-                Button("Submit") {
+                Button("Order") {
                     Task {
-                        //let order = try await createOrder(client: client.database, order_time: <#T##Date#>, comment: <#T##String#>, location: <#T##String#>)
+                        let order = try await createOrder(client: client.database, order_time: self.date, comment: "", location: self.location.name)
+                        
+                        if let order {
+                            for foodId in self.foodSelection {
+                                try await addOrderFood(client: self.client.database, order: order, foodId: foodId)
+                            }
+                        }
                     }
                 }
             }
@@ -189,10 +229,6 @@ struct PlaceOrderMenu : View {
                 var foodGroups = try await getFoodGroupsForMealCategory(client: client.database, mealCategory: mealCategory)
                 
                 let user = try await getUser(client: client.database, userId: client.auth.session!.user.id)
-                
-                let userAllergies = user.allergies.map { allergy in
-                    allergy.name
-                }
                 
                 foodGroups = foodGroups.map({foodGroup in
                     var newFoodGroup = foodGroup
@@ -220,6 +256,7 @@ struct PlaceOrderMenu : View {
         }
     }
 }
+
 
 struct FoodInfo : View {
     public var food: Food
