@@ -82,12 +82,7 @@ func getOrder(client: PostgrestClient, orderId: UUID) async throws -> Order? {
     
     return try response.decoded(to: [Order].self)[0]
 }
-
-<<<<<<< HEAD
-func getMealPeriodsAfter(client: PostgrestClient, date: Date) async throws -> [MealPeriod] {
-=======
 func getMealPeriodsOn(client: PostgrestClient, date: Date) async throws -> [MealPeriod] {
->>>>>>> main
     let dateFormatter = DateFormatter()
     dateFormatter.dateStyle = .full
     
