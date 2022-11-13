@@ -29,9 +29,7 @@ struct SessionView: View {
                 NavigationLink(destination: HelpInfo(), label: {ButtonView("Help/Info")}).opacity(0.7)
             }
             
-            
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Image("Screenshot 2022-11-13 at 12.57.58 AM").scaledToFill()).ignoresSafeArea()
+            .background(Image("Foodfoodfood").resizable().aspectRatio(contentMode: .fill))
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color.black)
