@@ -19,11 +19,10 @@ struct SessionView: View {
     var body: some View {
         NavigationView {
             VStack {
-            label:do{(Text("Welcome!"))
+            label:do{(Text("UMASS S.A.F.E.R"))
                 .foregroundColor(Color.white)
                 .font(Font.custom("sans serif", size: 48))
             }
-            .buffer()
                 NavigationLink(destination: PlaceOrder(), label: {ButtonView("Place Order")})
                 NavigationLink(destination: ViewOrders(), label: {ButtonView("View Orders")})
                 NavigationLink(destination: Sett(), label:  {ButtonView("Settings")})
@@ -203,15 +202,15 @@ struct ViewOrders: View {
     }
 }
 
-struct Sett: View {
-    var body: some View {
-        VStack {
-            label: do {Text("Settings").foregroundColor(.white)}
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color.black)
-    }
-}
+//struct Sett: View {
+//    var body: some View {
+//        VStack {
+//            label: do {Text("Settings").foregroundColor(.white)}
+//        }
+//        .frame(maxWidth: .infinity, maxHeight: .infinity)
+//        .background(Color.black)
+//    }
+//}
 
 struct HelpInfo: View {
     var body: some View {

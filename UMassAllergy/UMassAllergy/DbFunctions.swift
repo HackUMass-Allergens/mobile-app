@@ -82,7 +82,6 @@ func getOrder(client: PostgrestClient, orderId: UUID) async throws -> Order? {
     
     return try response.decoded(to: [Order].self)[0]
 }
-
 func getMealPeriodsOn(client: PostgrestClient, date: Date) async throws -> [MealPeriod] {
     let dateFormatter = DateFormatter()
     dateFormatter.dateStyle = .full
